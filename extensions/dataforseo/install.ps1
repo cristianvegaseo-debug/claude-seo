@@ -12,32 +12,32 @@ Write-Host ""
 # Check prerequisites
 $SeoSkillDir = "$env:USERPROFILE\.claude\skills\seo"
 if (-not (Test-Path $SeoSkillDir)) {
-    Write-Host "✗ Claude SEO is not installed." -ForegroundColor Red
+    Write-Host "[X] Claude SEO is not installed." -ForegroundColor Red
     Write-Host "  Install it first: irm https://raw.githubusercontent.com/AgriciDaniel/claude-seo/main/install.ps1 | iex"
     exit 1
 }
-Write-Host "✓ Claude SEO detected" -ForegroundColor Green
+Write-Host "[OK] Claude SEO detected" -ForegroundColor Green
 
 $nodeCmd = Get-Command -Name node -ErrorAction SilentlyContinue
 if ($null -eq $nodeCmd) {
-    Write-Host "✗ Node.js is required but not installed." -ForegroundColor Red
+    Write-Host "[X] Node.js is required but not installed." -ForegroundColor Red
     Write-Host "  Install Node.js 20+: https://nodejs.org/"
     exit 1
 }
 
 $nodeVersion = (node -v) -replace 'v','' -split '\.' | Select-Object -First 1
 if ([int]$nodeVersion -lt 20) {
-    Write-Host "✗ Node.js 20+ required (found v$nodeVersion)." -ForegroundColor Red
+    Write-Host "[X] Node.js 20+ required (found v$nodeVersion)." -ForegroundColor Red
     exit 1
 }
-Write-Host "✓ Node.js $(node -v) detected" -ForegroundColor Green
+Write-Host "[OK] Node.js $(node -v) detected" -ForegroundColor Green
 
 $npxCmd = Get-Command -Name npx -ErrorAction SilentlyContinue
 if ($null -eq $npxCmd) {
-    Write-Host "✗ npx is required but not found (comes with npm)." -ForegroundColor Red
+    Write-Host "[X] npx is required but not found (comes with npm)." -ForegroundColor Red
     exit 1
 }
-Write-Host "✓ npx detected" -ForegroundColor Green
+Write-Host "[OK] npx detected" -ForegroundColor Green
 
 # Prompt for credentials
 Write-Host ""
@@ -47,7 +47,7 @@ Write-Host ""
 
 $DfseUsername = Read-Host "DataForSEO username (email)"
 if ([string]::IsNullOrEmpty($DfseUsername)) {
-    Write-Host "✗ Username cannot be empty." -ForegroundColor Red
+    Write-Host "[X] Username cannot be empty." -ForegroundColor Red
     exit 1
 }
 
@@ -56,7 +56,7 @@ $DfsePassword = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
     [Runtime.InteropServices.Marshal]::SecureStringToBSTR($DfsePasswordSecure)
 )
 if ([string]::IsNullOrEmpty($DfsePassword)) {
-    Write-Host "✗ Password cannot be empty." -ForegroundColor Red
+    Write-Host "[X] Password cannot be empty." -ForegroundColor Red
     exit 1
 }
 
@@ -67,7 +67,7 @@ if (Test-Path "$ScriptDir\skills\seo-dataforseo\SKILL.md") {
 } elseif (Test-Path "$ScriptDir\extensions\dataforseo\skills\seo-dataforseo\SKILL.md") {
     $SourceDir = "$ScriptDir\extensions\dataforseo"
 } else {
-    Write-Host "✗ Cannot find extension source files." -ForegroundColor Red
+    Write-Host "[X] Cannot find extension source files." -ForegroundColor Red
     Write-Host "  Run this script from the claude-seo repo."
     exit 1
 }
@@ -131,13 +131,13 @@ print('  ok')
 
     $result = & $pyExe -c $pyScript 2>&1
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "  ✓ MCP server configured in settings.json" -ForegroundColor Green
+        Write-Host "  [OK] MCP server configured in settings.json" -ForegroundColor Green
     } else {
-        Write-Host "  ⚠  Could not auto-configure MCP server." -ForegroundColor Yellow
+        Write-Host "  [!]  Could not auto-configure MCP server." -ForegroundColor Yellow
         Write-Host "  Add the dataforseo server manually to ~\.claude\settings.json"
     }
 } else {
-    Write-Host "  ⚠  Python not found. Configure MCP server manually." -ForegroundColor Yellow
+    Write-Host "  [!]  Python not found. Configure MCP server manually." -ForegroundColor Yellow
     Write-Host "  See: extensions\dataforseo\docs\DATAFORSEO-SETUP.md"
 }
 
@@ -150,7 +150,7 @@ try {
 }
 
 Write-Host ""
-Write-Host "✓ DataForSEO extension installed successfully!" -ForegroundColor Green
+Write-Host "[OK] DataForSEO extension installed successfully!" -ForegroundColor Green
 Write-Host ""
 Write-Host "Usage:" -ForegroundColor Cyan
 Write-Host "  1. Start Claude Code:  claude"
