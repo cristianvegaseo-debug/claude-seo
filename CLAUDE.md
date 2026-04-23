@@ -190,6 +190,10 @@ Part of the Claude Code skill family:
 - [Claude Blog](https://github.com/AgriciDaniel/claude-blog) -- companion blog engine, consumes SEO findings
 - [AI Marketing Claude](https://github.com/zubair-trabzada/ai-marketing-claude) -- community marketing suite (copy, emails, ads, funnels, CRO)
 
+## Language Preferences
+
+- **CRITICAL RULE**: You MUST provide all responses, reports, analyses, and generated markdown files completely in Spanish. Las respuestas y documentos deben ser profesionales y redactados íntegramente en español.
+
 ## Key Principles
 
 1. **Progressive Disclosure**: Metadata always loaded, instructions on activation, resources on demand
