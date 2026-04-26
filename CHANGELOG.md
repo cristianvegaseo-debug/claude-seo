@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.6] - 2026-04-26
+
+### Security
+- **VULN-A01 (HIGH):** Removed `Bash` from `seo-flow` agent tool grant — agent no
+  longer has shell access, eliminating prompt-injection-to-shell attack surface
+- **VULN-A02/A07 (MEDIUM/LOW):** Switched `sync_flow.py` to anonymous-first GitHub API
+  requests; PAT only used as 403-triggered fallback — eliminates token-on-redirect leak
+- **VULN-A03 (MEDIUM):** Added `Path.resolve()` containment check in `record_write()` —
+  blocks path-traversal writes outside the skill reference directory
+- **VULN-A04 (MEDIUM):** Introduced `flow-prompts.lock` SHA-256 baseline file; sync now
+  diffs against baseline and reports upstream drift before writing
+- **VULN-A05 (MEDIUM):** Added explicit "WebFetch is untrusted" security rule to agent
+  body — agent warned not to execute or relay fetched content verbatim
+- **VULN-A06 (LOW):** `gh` CLI absence now degrades to anonymous API rather than
+  hard-exiting — sync works without gh CLI on public repos
+- **VULN-A08 (LOW):** All file writes are now atomic (tempfile + shutil.move) —
+  eliminates partial-write corruption on interrupt
+- **VULN-A09 (LOW):** GitHub API responses capped at 5 MB with 15s timeout —
+  prevents memory exhaustion from malformed or oversized API payloads
+- **VULN-A10 (LOW):** URL allowlist validates every request targets `api.github.com`
+  over HTTPS — blocks SSRF if `API_ROOT` constant is modified
+- **INFO-A14:** Added CC BY 4.0 attribution header to `references/prompts/README.md`
+
+### Tests
+- Added 10 new unit/integration tests covering all above findings
+- Test count: 5 → 15
+
+## [1.9.5] - 2026-04-26
+
+### Added
+- **seo-flow**: FLOW framework integration — Find → Leverage → Optimize → Win. 41 evidence-led AI prompts (CC BY 4.0) bundled as `skills/seo-flow/references/prompts/` (find:5, leverage:1, optimize:21, win:3, local:11). Commands: `/seo flow [find|leverage|optimize|win|local|prompts|sync]`.
+- **Context-matching orchestration**: `/seo flow optimize` selects 2-3 most relevant prompts from 21 based on URL industry signals and prior skill output — not a full dump.
+- **`scripts/sync_flow.py`**: GitHub API sync script — pulls latest FLOW prompts, framework doc, and bibliography from AgriciDaniel/flow. Supports `--dry-run` and `--ref <sha>` pinning. Outputs JSON summary.
+- **`agents/seo-flow.md`**: FLOW subagent — applies stage prompts to target URLs, returns structured evidence-tagged findings.
+- **FLOW cross-references**: Integration notes added to seo-geo, seo-local, seo-content, and seo-cluster skills.
+
+### License
+- FLOW content bundled under CC BY 4.0. Attribution header on every prompt file (automated by `sync_flow.py`). Claude SEO's MIT license unchanged — applies to skill code only.
+
 ## [1.9.0] - 2026-04-14
 
 ### Added
