@@ -129,7 +129,7 @@ with open(settings_path, 'w') as f:
 print('  ok')
 "@
 
-    $result = & $pyExe -c $pyScript 2>&1
+    $null = & $pyExe -c $pyScript 2>&1
     if ($LASTEXITCODE -eq 0) {
         Write-Host "  [OK] MCP server configured in settings.json" -ForegroundColor Green
     } else {
